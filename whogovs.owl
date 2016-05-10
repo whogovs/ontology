@@ -121,6 +121,33 @@
 	rdfs:domain :TemporalRecord ;
 	rdfs:range xsd:dateTime .
 # 
+# http://www.whogovs.com/ontology/hasEmailAddress
+
+:hasEmailAddress a owl:DatatypeProperty ;
+	rdfs:domain :Person ;
+	rdfs:range xsd:string .
+# 
+# http://www.whogovs.com/ontology/hasFacebookId
+
+:hasFacebookId a owl:DatatypeProperty ;
+	rdfs:domain :Contactable ;
+	rdfs:range xsd:string .
+# 
+# http://www.whogovs.com/ontology/hasName
+
+:hasName a owl:DatatypeProperty ;
+	rdfs:range xsd:Name .
+# 
+# http://www.whogovs.com/ontology/hasTwitterId
+
+:hasTwitterId a owl:DatatypeProperty ;
+	rdfs:domain :Contactable ;
+	rdfs:range xsd:string .
+# 
+# http://www.whogovs.com/ontology/hasWebsite
+
+:hasWebsite a owl:DatatypeProperty .
+# 
 # http://www.whogovs.com/ontology/length
 
 :length a owl:DatatypeProperty ;
@@ -166,12 +193,52 @@
 # 
 # http://www.whogovs.com/ontology/Constituency
 
-:Constituency a owl:Class .
+:Constituency a owl:Class ;
+	rdfs:subClassOf _:genid1 .
+
+_:genid1 a owl:Restriction ;
+	owl:onProperty :hasName ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:Name .
 # 
 # http://www.whogovs.com/ontology/ConstituencyRecord
 
 :ConstituencyRecord a owl:Class ;
 	rdfs:subClassOf :Record .
+# 
+# http://www.whogovs.com/ontology/Contactable
+
+:Contactable a owl:Class ;
+	rdfs:subClassOf _:genid2 .
+
+_:genid2 a owl:Restriction ;
+	owl:onProperty :hasEmailAddress ;
+	owl:allValuesFrom xsd:string .
+
+:Contactable rdfs:subClassOf _:genid3 .
+
+_:genid3 a owl:Restriction ;
+	owl:onProperty :hasFacebookId ;
+	owl:allValuesFrom xsd:string .
+
+:Contactable rdfs:subClassOf _:genid4 .
+
+_:genid4 a owl:Restriction ;
+	owl:onProperty :hasTwitterId ;
+	owl:allValuesFrom xsd:string .
+
+:Contactable rdfs:subClassOf _:genid5 .
+
+_:genid5 a owl:Restriction ;
+	owl:onProperty :hasWebsite ;
+	owl:allValuesFrom xsd:string .
+
+:Contactable rdfs:subClassOf _:genid6 .
+
+_:genid6 a owl:Restriction ;
+	owl:onProperty :hasName ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:Name .
 # 
 # http://www.whogovs.com/ontology/Debate
 
@@ -181,15 +248,15 @@
 # http://www.whogovs.com/ontology/Election
 
 :Election a owl:Class ;
-	rdfs:subClassOf _:genid1 .
+	rdfs:subClassOf _:genid7 .
 
-_:genid1 a owl:Restriction ;
+_:genid7 a owl:Restriction ;
 	owl:onProperty :electionParts ;
 	owl:allValuesFrom :ElectionRecord .
 
-:Election rdfs:subClassOf _:genid2 .
+:Election rdfs:subClassOf _:genid8 .
 
-_:genid2 a owl:Restriction ;
+_:genid8 a owl:Restriction ;
 	owl:onProperty :onDate ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:dateTime .
@@ -197,15 +264,15 @@ _:genid2 a owl:Restriction ;
 # http://www.whogovs.com/ontology/ElectionRecord
 
 :ElectionRecord a owl:Class ;
-	rdfs:subClassOf :ConstituencyRecord , _:genid3 .
+	rdfs:subClassOf :ConstituencyRecord , _:genid9 .
 
-_:genid3 a owl:Restriction ;
+_:genid9 a owl:Restriction ;
 	owl:onProperty :hasCandidate ;
 	owl:someValuesFrom :Person .
 
-:ElectionRecord rdfs:subClassOf _:genid4 .
+:ElectionRecord rdfs:subClassOf _:genid10 .
 
-_:genid4 a owl:Restriction ;
+_:genid10 a owl:Restriction ;
 	owl:onProperty :inElection ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onClass :Election .
@@ -223,31 +290,38 @@ _:genid4 a owl:Restriction ;
 # http://www.whogovs.com/ontology/Membership
 
 :Membership a owl:Class ;
-	rdfs:subClassOf :RepresentativeRecord , :TemporalRecord , _:genid5 .
+	rdfs:subClassOf :RepresentativeRecord , :TemporalRecord , _:genid11 .
 
-_:genid5 a owl:Restriction ;
+_:genid11 a owl:Restriction ;
 	owl:onProperty :memberOf ;
 	owl:someValuesFrom :Organisation .
 # 
 # http://www.whogovs.com/ontology/Organisation
 
 :Organisation a owl:Class ;
-	rdfs:subClassOf _:genid6 .
+	rdfs:subClassOf _:genid12 .
 
-_:genid6 a owl:Restriction ;
+_:genid12 a owl:Restriction ;
 	owl:onProperty :belongsTo ;
 	owl:allValuesFrom :Organisation .
 
-:Organisation rdfs:subClassOf _:genid7 .
+:Organisation rdfs:subClassOf _:genid13 .
 
-_:genid7 a owl:Restriction ;
+_:genid13 a owl:Restriction ;
 	owl:onProperty :hasBelonging ;
 	owl:allValuesFrom :Organisation .
+
+:Organisation rdfs:subClassOf _:genid14 .
+
+_:genid14 a owl:Restriction ;
+	owl:onProperty :hasName ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:Name .
 # 
 # http://www.whogovs.com/ontology/Party
 
 :Party a owl:Class ;
-	rdfs:subClassOf :Organisation .
+	rdfs:subClassOf :Contactable , :Organisation .
 # 
 # http://www.whogovs.com/ontology/PartyRecord
 
@@ -257,27 +331,27 @@ _:genid7 a owl:Restriction ;
 # http://www.whogovs.com/ontology/Person
 
 :Person a owl:Class ;
-	rdfs:subClassOf _:genid8 .
+	rdfs:subClassOf :Contactable , _:genid15 .
 
-_:genid8 a owl:Restriction ;
+_:genid15 a owl:Restriction ;
 	owl:onProperty :candidateIn ;
 	owl:allValuesFrom :ElectionRecord .
 # 
 # http://www.whogovs.com/ontology/Proceeding
 
 :Proceeding a owl:Class ;
-	rdfs:subClassOf :TemporalRecord , _:genid9 .
+	rdfs:subClassOf :TemporalRecord , _:genid16 .
 
-_:genid9 a owl:Restriction ;
+_:genid16 a owl:Restriction ;
 	owl:onProperty :hasProceedingRecords ;
 	owl:allValuesFrom :ProceedingRecord .
 # 
 # http://www.whogovs.com/ontology/ProceedingRecord
 
 :ProceedingRecord a owl:Class ;
-	rdfs:subClassOf :Record , _:genid10 .
+	rdfs:subClassOf :Record , _:genid17 .
 
-_:genid10 a owl:Restriction ;
+_:genid17 a owl:Restriction ;
 	owl:onProperty :inProceeding ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onClass :Proceeding .
@@ -294,16 +368,16 @@ _:genid10 a owl:Restriction ;
 # http://www.whogovs.com/ontology/RepSpoke
 
 :RepSpoke a owl:Class ;
-	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid11 .
+	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid18 .
 
-_:genid11 a owl:Restriction ;
+_:genid18 a owl:Restriction ;
 	owl:onProperty :content ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:string .
 
-:RepSpoke rdfs:subClassOf _:genid12 .
+:RepSpoke rdfs:subClassOf _:genid19 .
 
-_:genid12 a owl:Restriction ;
+_:genid19 a owl:Restriction ;
 	owl:onProperty :order ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:positiveInteger .
@@ -311,9 +385,9 @@ _:genid12 a owl:Restriction ;
 # http://www.whogovs.com/ontology/RepVoted
 
 :RepVoted a owl:Class ;
-	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid13 .
+	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid20 .
 
-_:genid13 a owl:Restriction ;
+_:genid20 a owl:Restriction ;
 	owl:onProperty :vote ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onClass :VoteOption .
@@ -326,9 +400,9 @@ _:genid13 a owl:Restriction ;
 # http://www.whogovs.com/ontology/RepresentativeRecord
 
 :RepresentativeRecord a owl:Class ;
-	rdfs:subClassOf :Record , _:genid14 .
+	rdfs:subClassOf :Record , _:genid21 .
 
-_:genid14 a owl:Restriction ;
+_:genid21 a owl:Restriction ;
 	owl:onProperty :representative ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onClass :Representative .
@@ -341,23 +415,23 @@ _:genid14 a owl:Restriction ;
 # http://www.whogovs.com/ontology/TemporalRecord
 
 :TemporalRecord a owl:Class ;
-	rdfs:subClassOf :Record , _:genid15 .
+	rdfs:subClassOf :Record , _:genid22 .
 
-_:genid15 a owl:Restriction ;
+_:genid22 a owl:Restriction ;
 	owl:onProperty :endDate ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:dateTime .
 
-:TemporalRecord rdfs:subClassOf _:genid16 .
+:TemporalRecord rdfs:subClassOf _:genid23 .
 
-_:genid16 a owl:Restriction ;
+_:genid23 a owl:Restriction ;
 	owl:onProperty :startDate ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:dateTime .
 
-:TemporalRecord rdfs:subClassOf _:genid17 .
+:TemporalRecord rdfs:subClassOf _:genid24 .
 
-_:genid17 a owl:Restriction ;
+_:genid24 a owl:Restriction ;
 	owl:onProperty :title ;
 	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
 	owl:onDataRange xsd:string .
