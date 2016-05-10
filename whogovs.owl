@@ -1,0 +1,395 @@
+@prefix : <http://www.whogovs.com/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://www.whogovs.com/ontology/> a owl:Ontology ;
+	<http://purl.org/dc/elements/1.1/creator> "Diarmuid Ryan - whogovs.com"^^xsd:string .
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://www.whogovs.com/ontology/belongsTo
+
+:belongsTo a owl:ObjectProperty ;
+	owl:inverseOf :hasBelonging ;
+	rdfs:domain :Organisation ;
+	rdfs:range :Organisation .
+# 
+# http://www.whogovs.com/ontology/candidateIn
+
+:candidateIn a owl:ObjectProperty ;
+	owl:inverseOf :hasCandidate ;
+	rdfs:domain :Person ;
+	rdfs:range :ElectionRecord .
+# 
+# http://www.whogovs.com/ontology/electionParts
+
+:electionParts a owl:ObjectProperty ;
+	owl:inverseOf :inElection ;
+	rdfs:domain :Election ;
+	rdfs:range :ElectionRecord .
+# 
+# http://www.whogovs.com/ontology/hasBelonging
+
+:hasBelonging a owl:ObjectProperty ;
+	rdfs:domain :Organisation ;
+	rdfs:range :Organisation .
+# 
+# http://www.whogovs.com/ontology/hasCandidate
+
+:hasCandidate a owl:ObjectProperty ;
+	rdfs:domain :ElectionRecord ;
+	rdfs:range :Person .
+# 
+# http://www.whogovs.com/ontology/hasMember
+
+:hasMember a owl:ObjectProperty ;
+	owl:inverseOf :memberOf ;
+	rdfs:domain :Organisation ;
+	rdfs:range :Membership .
+# 
+# http://www.whogovs.com/ontology/hasProceedingRecords
+
+:hasProceedingRecords a owl:ObjectProperty ;
+	owl:inverseOf :inProceeding ;
+	rdfs:domain :Proceeding ;
+	rdfs:range :ProceedingRecord .
+# 
+# http://www.whogovs.com/ontology/hasRepRecord
+
+:hasRepRecord a owl:ObjectProperty ;
+	owl:inverseOf :representative ;
+	rdfs:domain :Representative ;
+	rdfs:range :RepresentativeRecord .
+# 
+# http://www.whogovs.com/ontology/inElection
+
+:inElection a owl:ObjectProperty ;
+	rdfs:domain :ElectionRecord ;
+	rdfs:range :Election .
+# 
+# http://www.whogovs.com/ontology/inProceeding
+
+:inProceeding a owl:ObjectProperty ;
+	rdfs:domain :ProceedingRecord ;
+	rdfs:range :Proceeding .
+# 
+# http://www.whogovs.com/ontology/memberOf
+
+:memberOf a owl:ObjectProperty ;
+	rdfs:domain :Membership ;
+	rdfs:range :Organisation .
+# 
+# http://www.whogovs.com/ontology/representative
+
+:representative a owl:ObjectProperty ;
+	rdfs:domain :RepresentativeRecord ;
+	rdfs:range :Representative .
+# 
+# http://www.whogovs.com/ontology/vote
+
+:vote a owl:ObjectProperty ;
+	rdfs:domain :RepVoted ;
+	rdfs:range :VoteOption .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Data properties
+# #
+# #################################################################
+# 
+# 
+# http://www.whogovs.com/ontology/content
+
+:content a owl:DatatypeProperty ;
+	rdfs:domain :RepSpoke ;
+	rdfs:range xsd:string .
+# 
+# http://www.whogovs.com/ontology/endDate
+
+:endDate a owl:DatatypeProperty ;
+	rdfs:domain :TemporalRecord ;
+	rdfs:range xsd:dateTime .
+# 
+# http://www.whogovs.com/ontology/length
+
+:length a owl:DatatypeProperty ;
+	rdfs:domain :RepSpoke ;
+	rdfs:range xsd:positiveInteger .
+# 
+# http://www.whogovs.com/ontology/onDate
+
+:onDate a owl:DatatypeProperty ;
+	rdfs:domain :Record ;
+	rdfs:range xsd:dateTime .
+# 
+# http://www.whogovs.com/ontology/order
+
+:order a owl:DatatypeProperty ;
+	rdfs:range xsd:positiveInteger .
+# 
+# http://www.whogovs.com/ontology/startDate
+
+:startDate a owl:DatatypeProperty ;
+	rdfs:domain :TemporalRecord ;
+	rdfs:range xsd:dateTime .
+# 
+# http://www.whogovs.com/ontology/title
+
+:title a owl:DatatypeProperty ;
+	rdfs:domain :Proceeding ;
+	rdfs:range xsd:string .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://www.whogovs.com/ontology/Committee
+
+:Committee a owl:Class ;
+	rdfs:subClassOf :Legislature .
+# 
+# http://www.whogovs.com/ontology/Constituency
+
+:Constituency a owl:Class .
+# 
+# http://www.whogovs.com/ontology/ConstituencyRecord
+
+:ConstituencyRecord a owl:Class ;
+	rdfs:subClassOf :Record .
+# 
+# http://www.whogovs.com/ontology/Debate
+
+:Debate a owl:Class ;
+	rdfs:subClassOf :Proceeding .
+# 
+# http://www.whogovs.com/ontology/Election
+
+:Election a owl:Class ;
+	rdfs:subClassOf _:genid1 .
+
+_:genid1 a owl:Restriction ;
+	owl:onProperty :electionParts ;
+	owl:allValuesFrom :ElectionRecord .
+
+:Election rdfs:subClassOf _:genid2 .
+
+_:genid2 a owl:Restriction ;
+	owl:onProperty :onDate ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:dateTime .
+# 
+# http://www.whogovs.com/ontology/ElectionRecord
+
+:ElectionRecord a owl:Class ;
+	rdfs:subClassOf :ConstituencyRecord , _:genid3 .
+
+_:genid3 a owl:Restriction ;
+	owl:onProperty :hasCandidate ;
+	owl:someValuesFrom :Person .
+
+:ElectionRecord rdfs:subClassOf _:genid4 .
+
+_:genid4 a owl:Restriction ;
+	owl:onProperty :inElection ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onClass :Election .
+# 
+# http://www.whogovs.com/ontology/House
+
+:House a owl:Class ;
+	rdfs:subClassOf :Legislature .
+# 
+# http://www.whogovs.com/ontology/Legislature
+
+:Legislature a owl:Class ;
+	rdfs:subClassOf :Organisation .
+# 
+# http://www.whogovs.com/ontology/Membership
+
+:Membership a owl:Class ;
+	rdfs:subClassOf :RepresentativeRecord , :TemporalRecord , _:genid5 .
+
+_:genid5 a owl:Restriction ;
+	owl:onProperty :memberOf ;
+	owl:someValuesFrom :Organisation .
+# 
+# http://www.whogovs.com/ontology/Organisation
+
+:Organisation a owl:Class ;
+	rdfs:subClassOf _:genid6 .
+
+_:genid6 a owl:Restriction ;
+	owl:onProperty :belongsTo ;
+	owl:allValuesFrom :Organisation .
+
+:Organisation rdfs:subClassOf _:genid7 .
+
+_:genid7 a owl:Restriction ;
+	owl:onProperty :hasBelonging ;
+	owl:allValuesFrom :Organisation .
+# 
+# http://www.whogovs.com/ontology/Party
+
+:Party a owl:Class ;
+	rdfs:subClassOf :Organisation .
+# 
+# http://www.whogovs.com/ontology/PartyRecord
+
+:PartyRecord a owl:Class ;
+	rdfs:subClassOf :Record .
+# 
+# http://www.whogovs.com/ontology/Person
+
+:Person a owl:Class ;
+	rdfs:subClassOf _:genid8 .
+
+_:genid8 a owl:Restriction ;
+	owl:onProperty :candidateIn ;
+	owl:allValuesFrom :ElectionRecord .
+# 
+# http://www.whogovs.com/ontology/Proceeding
+
+:Proceeding a owl:Class ;
+	rdfs:subClassOf :TemporalRecord , _:genid9 .
+
+_:genid9 a owl:Restriction ;
+	owl:onProperty :hasProceedingRecords ;
+	owl:allValuesFrom :ProceedingRecord .
+# 
+# http://www.whogovs.com/ontology/ProceedingRecord
+
+:ProceedingRecord a owl:Class ;
+	rdfs:subClassOf :Record , _:genid10 .
+
+_:genid10 a owl:Restriction ;
+	owl:onProperty :inProceeding ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onClass :Proceeding .
+# 
+# http://www.whogovs.com/ontology/Record
+
+:Record a owl:Class .
+# 
+# http://www.whogovs.com/ontology/RepInConstituency
+
+:RepInConstituency a owl:Class ;
+	rdfs:subClassOf :ConstituencyRecord , :RepresentativeRecord , :TemporalRecord .
+# 
+# http://www.whogovs.com/ontology/RepSpoke
+
+:RepSpoke a owl:Class ;
+	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid11 .
+
+_:genid11 a owl:Restriction ;
+	owl:onProperty :content ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:string .
+
+:RepSpoke rdfs:subClassOf _:genid12 .
+
+_:genid12 a owl:Restriction ;
+	owl:onProperty :order ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:positiveInteger .
+# 
+# http://www.whogovs.com/ontology/RepVoted
+
+:RepVoted a owl:Class ;
+	rdfs:subClassOf :ProceedingRecord , :RepresentativeRecord , _:genid13 .
+
+_:genid13 a owl:Restriction ;
+	owl:onProperty :vote ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onClass :VoteOption .
+# 
+# http://www.whogovs.com/ontology/Representative
+
+:Representative a owl:Class ;
+	rdfs:subClassOf :Person .
+# 
+# http://www.whogovs.com/ontology/RepresentativeRecord
+
+:RepresentativeRecord a owl:Class ;
+	rdfs:subClassOf :Record , _:genid14 .
+
+_:genid14 a owl:Restriction ;
+	owl:onProperty :representative ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onClass :Representative .
+# 
+# http://www.whogovs.com/ontology/Role
+
+:Role a owl:Class ;
+	rdfs:subClassOf :RepresentativeRecord , :TemporalRecord .
+# 
+# http://www.whogovs.com/ontology/TemporalRecord
+
+:TemporalRecord a owl:Class ;
+	rdfs:subClassOf :Record , _:genid15 .
+
+_:genid15 a owl:Restriction ;
+	owl:onProperty :endDate ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:dateTime .
+
+:TemporalRecord rdfs:subClassOf _:genid16 .
+
+_:genid16 a owl:Restriction ;
+	owl:onProperty :startDate ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:dateTime .
+
+:TemporalRecord rdfs:subClassOf _:genid17 .
+
+_:genid17 a owl:Restriction ;
+	owl:onProperty :title ;
+	owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+	owl:onDataRange xsd:string .
+# 
+# http://www.whogovs.com/ontology/Vote
+
+:Vote a owl:Class ;
+	rdfs:subClassOf :Proceeding .
+# 
+# http://www.whogovs.com/ontology/VoteOption
+
+:VoteOption a owl:Class .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Individuals
+# #
+# #################################################################
+# 
+# 
+# http://www.whogovs.com/ontology/Abstain
+
+:Abstain a owl:NamedIndividual , :VoteOption .
+# 
+# http://www.whogovs.com/ontology/No
+
+:No a owl:NamedIndividual , :VoteOption .
+# 
+# http://www.whogovs.com/ontology/Yes
+
+:Yes a owl:NamedIndividual , :VoteOption .
+# 
+# Generated by the OWL API (version 4.2.3.20160319-0906) https://github.com/owlcs/owlapi
